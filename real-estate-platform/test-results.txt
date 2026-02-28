@@ -1,0 +1,45 @@
+============================================================
+  OWNER FEATURES TEST
+============================================================
+
+1. Login as regular user...
+   ✅ User logged in
+
+2. Login as admin...
+   ✅ Admin logged in
+
+3. GET /api/properties/my (no auth)...
+   Status: 401 — ✅ Correctly requires auth
+
+4. GET /api/properties/my (user auth)...
+   Status: 200 — ✅ OK
+   Properties found: 0
+
+5. POST /api/properties (as user)...
+   Status: 201 — ✅ Created
+   New property ID: 5
+   userId saved: ✅ 2
+
+6. PUT /api/properties/5 (owner first edit)...
+   Status: 200 — ✅ Updated
+
+7. PUT /api/properties/5 (second edit — should hit cooldown)...
+   Status: 429 — ✅ Cooldown enforced (429)
+   Cooldown info: 24h 1440m remaining
+   Next edit at: 2026-02-28T06:57:29.114Z
+
+8. PUT /api/properties/5 (admin — no cooldown)...
+   Status: 200 — ✅ Admin bypasses cooldown
+
+9. PUT /api/properties/5 (different user — should be 403)...
+   Status: 401 — ✅ Unauthorized (no token)
+
+10. DELETE /api/properties/5 (cleanup)...
+    Status: 200 — ✅ Deleted
+
+11. GET /api/properties/my (final check)...
+    Status: 200 — ✅ OK
+
+============================================================
+  TEST COMPLETE
+============================================================

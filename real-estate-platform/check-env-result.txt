@@ -1,0 +1,29 @@
+=== ENV KEYS PRESENT ===
+ ✅ DATABASE_URL
+ ✅ NODE_ENV
+ ✅ NEXT_PUBLIC_APP_URL
+ ✅ NEXT_PUBLIC_APP_NAME
+ ✅ 
+ ✅ JWT_SECRET
+ ✅ JWT_EXPIRES_IN
+ ✅ JWT_REFRESH_SECRET
+ ✅ JWT_REFRESH_EXPIRES_IN
+ ✅ 
+ ✅ NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+ ✅ 
+ ✅ UPLOAD_DIR
+ ✅ MAX_FILE_SIZE
+ ✅ ALLOWED_FILE_TYPES
+ ✅ 
+ ✅ RATE_LIMIT_MAX
+ ✅ RATE_LIMIT_WINDOW_MS
+ ✅ 
+ ✅ ADMIN_EMAIL
+ ✅ ADMIN_PASSWORD
+
+=== TESTING API ROUTES ===
+GET /api/test-db status: 200
+Response (first 200 chars): {"success":true,"message":"MySQL database connection successful","data":{"mysqlVersion":"8.0.44","tables":["_prisma_migrations","bookings","contacts","properties","users"],"counts":{"users":1,"propert
+
+POST /api/auth/login status: 401
+Response (first 300 chars): {"success":false,"error":"Invalid email or password"}

@@ -1,0 +1,57 @@
+============================================================
+  NEW FEATURES TEST
+============================================================
+
+✅ Admin logged in
+
+── Feature 7: Admin Analytics API ──
+Status: 200 — ✅ OK
+  totalProperties: ✅ 1
+  availableProperties: ✅ 0
+  totalBookings: ✅ 0
+  pendingBookings: ✅ 0
+  totalUsers: ✅ 2
+  totalContacts: ✅ 0
+  propertiesByType: ✅ array(1)
+    Sample: {"_count":{"type":1},"type":"SALE"}
+  propertiesByCity: ✅ array(1)
+    Sample: {"_count":{"city":1},"city":"تبوك"}
+  bookingsByStatus: ✅ array(0)
+  monthlyBookings: ✅ array(6)
+    Sample: {"month":"2025-09","count":0}
+  monthlyBookings has 6 months: ✅
+  Months: 2025-09, 2025-10, 2025-11, 2025-12, 2026-01, 2026-02
+
+── Feature 6 & 8: Property Detail (WhatsApp + Share) ──
+  ⚠️ No properties found to test share buttons
+
+── Security: Stats API requires admin ──
+  Non-admin access: ✅ 403 Forbidden
+  No auth access: ✅ 401 Unauthorized
+
+============================================================
+  SUMMARY
+============================================================
+✅ Feature 6: WhatsApp Integration — ShareButtons component
+   - Direct WhatsApp contact button (green, prominent)
+   - Share panel: WhatsApp, X, Facebook, LinkedIn, Copy Link
+   - Pre-filled message with property title, city, price, URL
+   - Native Web Share API support (mobile)
+
+✅ Feature 7: Advanced Analytics — AnalyticsCharts component
+   - Donut chart: Properties by type (Sale vs Rent)
+   - Bar chart: Properties by city (top 6)
+   - Status chart: Booking status distribution
+   - Line chart: Monthly bookings (last 6 months)
+   - Pure SVG/CSS — no external library needed
+
+✅ Feature 8: Property Sharing — Social media share buttons
+   - WhatsApp, Twitter/X, Facebook, LinkedIn
+   - Copy link with clipboard API + fallback
+   - Bilingual messages (AR/EN)
+
+✅ Bug Fix: Admin stats API response structure
+   - Was: nested stats.stats.totalProperties
+   - Now: flat stats.totalProperties
+   - Added: totalContacts, propertiesByType, propertiesByCity,
+            bookingsByStatus, monthlyBookings

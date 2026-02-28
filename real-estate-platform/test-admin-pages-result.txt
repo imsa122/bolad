@@ -1,0 +1,44 @@
+============================================================
+  ADMIN PAGES & API ROUTES TEST
+============================================================
+  ✅ Admin login → 200 — status: 200
+  ✅ Token received
+
+── Admin Users API ──
+  ✅ GET /api/admin/users → 200 — status: 200
+  ✅ Returns data array — type: object
+  ✅ Returns total count — total: 17
+  ℹ️  Users found: 17
+  ✅ GET /api/admin/users?role=ADMIN → 200
+  ✅ All returned users are ADMIN — count: 1
+
+── Admin Contacts API ──
+  ✅ GET /api/admin/contacts → 200 — status: 200
+  ✅ Returns data array
+  ✅ Returns total count — total: 0
+
+── Bookings API (data structure fix) ──
+  ✅ GET /api/bookings → 200 — status: 200
+  ✅ data.data is array (not object) — type: object
+  ✅ pagination exists
+  ℹ️  Bookings found: 0
+
+── Authorization Tests ──
+  ✅ No token → 401 — status: 401
+  ✅ Regular user → 403 — status: 403
+
+── Page Accessibility ──
+  ✅ Users page (AR) — status: 200
+  ✅ Users page (EN) — status: 200
+  ✅ Contacts page (AR) — status: 200
+  ✅ Contacts page (EN) — status: 200
+  ✅ Settings page (AR) — status: 200
+  ✅ Settings page (EN) — status: 200
+  ✅ Bookings page (AR) — status: 200
+
+============================================================
+  RESULTS: 22 passed, 0 failed out of 22
+============================================================
+
+🎉 All admin page tests passed!
+

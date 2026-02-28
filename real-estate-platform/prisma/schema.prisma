@@ -1,0 +1,182 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
+}
+
+// ============================================
+// MySQL Database Connection
+// ============================================
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// USER MODEL
+// ============================================
+model User {
+  id                Int       @id @default(autoincrement())
+  name              String    @db.VarChar(100)
+  email             String    @unique @db.VarChar(255)
+  password          String    @db.VarChar(255)
+  role              Role      @default(USER)
+  phone             String?   @db.VarChar(20)
+  avatar            String?   @db.VarChar(500)
+  isActive          Boolean   @default(true)
+  isEmailVerified   Boolean   @default(false)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // Relations
+  bookings    Booking[]
+  properties  Property[]
+
+  @@map("users")
+  @@index([email])
+  @@index([role])
+}
+
+// ============================================
+// EMAIL VERIFICATION (OTP) MODEL
+// ============================================
+model EmailVerification {
+  id          Int      @id @default(autoincrement())
+  email       String   @unique @db.VarChar(255)
+  otpHash     String   @db.VarChar(255)
+  expiresAt   DateTime
+  attempts    Int      @default(0)
+  sendCount   Int      @default(1)
+  lastSentAt  DateTime @default(now())
+  createdAt   DateTime @default(now())
+
+  @@map("email_verifications")
+  @@index([email])
+  @@index([expiresAt])
+}
+
+// ============================================
+// PROPERTY MODEL
+// ============================================
+model Property {
+  id             Int           @id @default(autoincrement())
+  title_ar       String        @db.VarChar(255)
+  title_en       String        @db.VarChar(255)
+  description_ar String        @db.Text
+  description_en String        @db.Text
+  price          Decimal       @db.Decimal(15, 2)
+  city           String        @db.VarChar(100)
+  address_ar     String?       @db.VarChar(500)
+  address_en     String?       @db.VarChar(500)
+  type           PropertyType
+  status         PropertyStatus @default(AVAILABLE)
+  bedrooms       Int
+  bathrooms      Int
+  area           Decimal       @db.Decimal(10, 2)
+  latitude       Float?
+  longitude      Float?
+  images         Json          @default("[]")
+  amenities      Json          @default("[]")
+  featured       Boolean       @default(false)
+  views          Int           @default(0)
+  userId         Int?
+  lastEditedAt   DateTime?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  // Relations
+  bookings       Booking[]
+  owner          User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@map("properties")
+  @@index([city])
+  @@index([type])
+  @@index([status])
+  @@index([featured])
+  @@index([price])
+  @@index([bedrooms])
+  @@index([userId])
+}
+
+// ============================================
+// BOOKING MODEL
+// ============================================
+model Booking {
+  id          Int           @id @default(autoincrement())
+  propertyId  Int
+  userId      Int
+  bookingType BookingType
+  status      BookingStatus @default(PENDING)
+  message     String?       @db.Text
+  visitDate   DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  // Relations
+  property    Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("bookings")
+  @@index([propertyId])
+  @@index([userId])
+  @@index([status])
+}
+
+// ============================================
+// CONTACT MODEL
+// ============================================
+model Contact {
+  id        Int           @id @default(autoincrement())
+  name      String        @db.VarChar(100)
+  email     String        @db.VarChar(255)
+  phone     String?       @db.VarChar(20)
+  subject   String        @db.VarChar(255)
+  message   String        @db.Text
+  status    ContactStatus @default(UNREAD)
+  createdAt DateTime      @default(now())
+
+  @@map("contacts")
+  @@index([status])
+}
+
+// ============================================
+// ENUMS
+// ============================================
+enum Role {
+  USER
+  ADMIN
+}
+
+enum PropertyType {
+  SALE
+  RENT
+}
+
+enum PropertyStatus {
+  AVAILABLE
+  SOLD
+  RENTED
+  PENDING
+}
+
+enum BookingType {
+  VISIT
+  INQUIRY
+  PURCHASE
+  RENTAL
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+enum ContactStatus {
+  UNREAD
+  READ
+  REPLIED
+}

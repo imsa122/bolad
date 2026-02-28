@@ -1,0 +1,34 @@
+=== CHECKING USERS IN DB ===
+
+Admin login status: 401
+Admin login result: {
+  "success": false,
+  "error": "Invalid email or password"
+}
+
+---
+
+User login status: 401
+User login result: {
+  "success": false,
+  "error": "Invalid email or password"
+}
+
+=== REGISTERING TEST USER ===
+
+Register status: 201
+Register result: {
+  "success": true,
+  "message": "Account created successfully",
+  "data": {
+    "user": {
+      "id": 2,
+      "name": "أحمد محمد",
+      "email": "user@realestate.sa",
+      "role": "USER",
+      "phone": "+966511111111",
+      "createdAt": "2026-02-27T06:54:22.854Z"
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImVtYWlsIjoidXNlckByZWFsZXN0YXRlLnNhIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3NzIxNzUyNjIsImV4cCI6MTc3Mjc4MDA2Mn0.fsiaxuSR_N7GgLcUbBy10JZ-aXxTDdfvgF4sV_3ZMIs"
+  }
+}

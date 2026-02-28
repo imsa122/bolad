@@ -1,0 +1,262 @@
+{
+  "nav": {
+    "home": "Home",
+    "properties": "Properties",
+    "about": "About Us",
+    "contact": "Contact",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "dashboard": "Dashboard",
+    "profile": "Profile"
+  },
+  "home": {
+    "hero": {
+      "title": "Find Your Dream Home",
+      "subtitle": "We provide the best properties across Saudi Arabia at competitive prices with professional service",
+      "searchPlaceholder": "Search by city or neighborhood...",
+      "searchButton": "Search",
+      "stats": {
+        "properties": "Available Properties",
+        "cities": "Cities",
+        "clients": "Happy Clients",
+        "years": "Years Experience"
+      }
+    },
+    "featured": {
+      "title": "Featured Properties",
+      "subtitle": "Discover our carefully selected properties to suit your needs",
+      "viewAll": "View All Properties"
+    },
+    "whyUs": {
+      "title": "Why Choose Us?",
+      "subtitle": "We provide comprehensive real estate services with the highest standards of quality and professionalism",
+      "features": {
+        "trusted": {
+          "title": "Trusted & Certified",
+          "desc": "We operate with the highest standards of transparency and credibility in the real estate market"
+        },
+        "expert": {
+          "title": "Expert Team",
+          "desc": "A team of specialists with extensive experience in the Saudi real estate market"
+        },
+        "support": {
+          "title": "24/7 Support",
+          "desc": "We are here to help you at every step of your real estate journey"
+        },
+        "best_price": {
+          "title": "Best Prices",
+          "desc": "We guarantee you get the best value for your real estate investment"
+        }
+      }
+    },
+    "cta": {
+      "title": "Ready to Find Your Perfect Home?",
+      "subtitle": "Contact us today and our team will help you find the right property for you",
+      "button": "Contact Us Now"
+    }
+  },
+  "properties": {
+    "title": "All Properties",
+    "subtitle": "Explore our wide collection of properties across the Kingdom",
+    "filter": {
+      "title": "Filter Results",
+      "city": "City",
+      "type": "Property Type",
+      "minPrice": "Min Price",
+      "maxPrice": "Max Price",
+      "bedrooms": "Bedrooms",
+      "allCities": "All Cities",
+      "allTypes": "All Types",
+      "allBedrooms": "All Bedrooms",
+      "sale": "For Sale",
+      "rent": "For Rent",
+      "apply": "Apply Filter",
+      "reset": "Reset",
+      "results": "results"
+    },
+    "sort": {
+      "label": "Sort By",
+      "newest": "Newest",
+      "oldest": "Oldest",
+      "priceAsc": "Price: Low to High",
+      "priceDesc": "Price: High to Low",
+      "mostViewed": "Most Viewed"
+    },
+    "card": {
+      "bedrooms": "Bedrooms",
+      "bathrooms": "Bathrooms",
+      "area": "m²",
+      "viewDetails": "View Details",
+      "featured": "Featured",
+      "sale": "For Sale",
+      "rent": "For Rent",
+      "monthly": "/ month"
+    },
+    "details": {
+      "overview": "Overview",
+      "description": "Description",
+      "features": "Features & Amenities",
+      "location": "Location",
+      "contact": "Contact Agent",
+      "book": "Book a Visit",
+      "share": "Share",
+      "views": "views",
+      "postedOn": "Posted On",
+      "propertyId": "Property ID",
+      "similar": "Similar Properties"
+    },
+    "noResults": "No properties match your search criteria",
+    "loading": "Loading..."
+  },
+  "booking": {
+    "title": "Book a Visit",
+    "type": {
+      "label": "Request Type",
+      "VISIT": "Property Visit",
+      "INQUIRY": "Inquiry",
+      "PURCHASE": "Purchase",
+      "RENTAL": "Rental"
+    },
+    "visitDate": "Visit Date",
+    "message": "Additional Message",
+    "messagePlaceholder": "Add any details or inquiries...",
+    "submit": "Confirm Booking",
+    "success": "Booking request sent successfully! We will contact you soon.",
+    "loginRequired": "You must be logged in to make a booking"
+  },
+  "auth": {
+    "login": {
+      "title": "Sign In",
+      "subtitle": "Welcome back! Sign in to continue",
+      "email": "Email Address",
+      "password": "Password",
+      "remember": "Remember me",
+      "forgot": "Forgot password?",
+      "submit": "Sign In",
+      "noAccount": "Don't have an account?",
+      "register": "Create new account"
+    },
+    "register": {
+      "title": "Create Account",
+      "subtitle": "Join us and start your real estate journey",
+      "name": "Full Name",
+      "email": "Email Address",
+      "phone": "Phone Number (optional)",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "submit": "Create Account",
+      "hasAccount": "Already have an account?",
+      "login": "Sign In",
+      "terms": "By creating an account, you agree to our",
+      "termsLink": "Terms & Conditions"
+    }
+  },
+  "admin": {
+    "dashboard": {
+      "title": "Dashboard",
+      "welcome": "Welcome to the Admin Dashboard",
+      "stats": {
+        "totalProperties": "Total Properties",
+        "totalBookings": "Total Bookings",
+        "totalUsers": "Total Users",
+        "pendingBookings": "Pending Bookings"
+      }
+    },
+    "properties": {
+      "title": "Manage Properties",
+      "add": "Add New Property",
+      "edit": "Edit Property",
+      "delete": "Delete Property",
+      "deleteConfirm": "Are you sure you want to delete this property?",
+      "images": "Property Images",
+      "uploadImages": "Upload Images",
+      "maxImages": "Maximum 10 images"
+    },
+    "bookings": {
+      "title": "Manage Bookings",
+      "status": {
+        "PENDING": "Pending",
+        "CONFIRMED": "Confirmed",
+        "CANCELLED": "Cancelled",
+        "COMPLETED": "Completed"
+      },
+      "updateStatus": "Update Status"
+    },
+    "sidebar": {
+      "dashboard": "Dashboard",
+      "properties": "Properties",
+      "bookings": "Bookings",
+      "users": "Users",
+      "contacts": "Messages",
+      "settings": "Settings"
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "We're here to help. Send us a message and we'll respond as soon as possible",
+    "name": "Full Name",
+    "email": "Email Address",
+    "phone": "Phone Number",
+    "subject": "Subject",
+    "message": "Message",
+    "submit": "Send Message",
+    "success": "Your message has been sent successfully! We'll contact you soon.",
+    "info": {
+      "address": "Riyadh, Saudi Arabia",
+      "phone": "+966 11 000 0000",
+      "email": "info@realestate.sa",
+      "hours": "Sunday - Thursday: 9 AM - 6 PM"
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Try Again",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "search": "Search",
+    "noData": "No data available",
+    "required": "Required",
+    "optional": "Optional",
+    "sar": "SAR",
+    "sqm": "m²",
+    "bedroom": "Bedroom",
+    "bathroom": "Bathroom",
+    "confirmDelete": "Confirm Delete",
+    "areYouSure": "Are you sure? This action cannot be undone.",
+    "success": "Operation completed successfully",
+    "pageNotFound": "Page Not Found",
+    "goHome": "Go to Homepage"
+  },
+  "footer": {
+    "description": "A leading real estate platform in Saudi Arabia, providing the best real estate services with the highest quality standards.",
+    "quickLinks": "Quick Links",
+    "services": "Our Services",
+    "contact": "Contact Us",
+    "rights": "All Rights Reserved",
+    "services_list": {
+      "buy": "Buy Property",
+      "rent": "Rent Property",
+      "sell": "Sell Property",
+      "invest": "Real Estate Investment",
+      "consult": "Real Estate Consulting"
+    }
+  },
+  "seo": {
+    "home": {
+      "title": "Saudi Real Estate - Best Real Estate Platform in the Kingdom",
+      "description": "Find the best properties for sale and rent in Saudi Arabia. Villas, apartments, commercial offices at competitive prices."
+    },
+    "properties": {
+      "title": "Available Properties - Saudi Real Estate",
+      "description": "Browse hundreds of properties available for sale and rent in all cities of Saudi Arabia."
+    }
+  }
+}

@@ -1,0 +1,59 @@
+============================================================
+  OTP EMAIL VERIFICATION SYSTEM TEST
+============================================================
+
+⏳ Waiting for server...
+
+── Test 1: Register → Auto OTP Send ──
+  ❌ Register returns 201 — status: 422
+  ❌ requiresEmailVerification flag
+  ❌ otpSent flag present
+  ❌ JWT token returned
+  ℹ️  Dev OTP: (check server console)
+  ℹ️  Test email: otp-test-1772240581230@example.com
+
+── Test 2: POST /api/auth/send-otp ──
+  ❌ Send OTP returns 200 — status: 404
+  ❌ expiresIn = 600
+  ℹ️  New Dev OTP: (check server console)
+
+── Test 3: Cooldown (60s between sends) ──
+  ❌ Second send within 60s → 429 — status: 404
+  ❌ retryAfter present — retryAfter: undefined
+  ℹ️  Retry after: undefineds
+
+── Test 4: Wrong OTP → 400 + attempts remaining ──
+  ✅ Wrong OTP → 400 — status: 400
+  ❌ attemptsLeft present — attemptsLeft: undefined
+  ℹ️  Attempts left: undefined
+
+── Test 5: Correct OTP → 200 + email verified ──
+  ⚠️  No dev OTP available — skipping correct OTP tests
+  ℹ️  Check server console for OTP value
+
+── Test 8: Input Validation ──
+  ✅ Invalid email → 422 — status: 422
+  ✅ 5-digit OTP → 422 — status: 422
+  ✅ Non-numeric OTP → 422 — status: 422
+
+── Test 9: Non-existent email ──
+  ✅ Non-existent email → 404 — status: 404
+
+── Cleanup ──
+
+============================================================
+  RESULTS: 5 passed, 12 failed
+============================================================
+
+⚠️  12 test(s) failed
+
+📋 OTP System Summary:
+  • OTP: 6-digit, crypto.randomInt (CSPRNG)
+  • Storage: bcrypt hash (never plain text)
+  • Expiry: 10 minutes
+  • Cooldown: 60 seconds between resends
+  • Max sends: 3 per hour per email
+  • Max attempts: 5 per OTP
+  • One-time use: deleted after successful verify
+  • Timing-safe: bcrypt.compare (constant time)
+  • Dev mode: OTP logged to console + returned in response

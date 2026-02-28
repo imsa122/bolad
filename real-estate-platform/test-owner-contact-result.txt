@@ -1,0 +1,63 @@
+============================================================
+  OWNER CONTACT INFO TEST
+============================================================
+
+1. User login: ✅
+
+2. Create property as user (with phone +966511111111)...
+   Status: 201 — ✅ Created
+   Property ID: 7
+   userId: 2
+
+3. GET /api/properties/7 (check owner info)...
+   Status: 200 — ✅ OK
+   title_en: Contact Test Apartment
+   userId: 2
+   userId set: ✅ 2
+
+4. Verify user phone number (used for owner contact)...
+   Status: 200 — ✅ OK
+   User name: أحمد محمد
+   User phone: +966511111111
+   Phone available for WhatsApp: ✅ Yes — +966511111111
+
+5. Cleanup: DELETE /api/properties/7...
+   Status: 200 — ✅ Deleted
+
+============================================================
+  HOW OWNER CONTACT WORKS
+============================================================
+
+When a visitor views a property detail page:
+
+1. The page fetches the property WITH owner info:
+   prisma.property.findUnique({
+     where: { id },
+     include: { owner: { select: { id, name, phone } } }
+   })
+
+2. The sidebar shows:
+   ┌─────────────────────────────────┐
+   │  [Avatar]  أحمد محمد             │
+   │            المعلن                │
+   ├─────────────────────────────────┤
+   │  📞  اتصل بالمعلن               │
+   │      +966 51 111 1111            │
+   ├─────────────────────────────────┤
+   │  [WhatsApp] تواصل عبر واتساب    │
+   │  → Opens wa.me/966511111111      │
+   ├─────────────────────────────────┤
+   │  [Share] مشاركة العقار           │
+   └─────────────────────────────────┘
+
+3. The booking form (احجز موعد) sends an inquiry
+   that the owner can see in their profile page
+
+4. If owner has no phone → fallback to platform number
+   (+966 11 000 0000)
+
+✅ Contact methods available:
+   • Direct phone call (owner's number)
+   • WhatsApp (owner's number, pre-filled message)
+   • Booking/Inquiry form (stored in DB, owner sees it)
+   • Social share (WhatsApp, X, Facebook, LinkedIn)

@@ -1,0 +1,7 @@
+🔑 Resetting admin password...
+✅ Admin password reset for: admin@realestate.sa (id: 3 )
+
+📋 All users in DB:
+  [1] imsa122@hotmail.com (USER) - مهند الثقفي
+  [2] user@realestate.sa (USER) - أحمد محمد
+  [3] admin@realestate.sa (ADMIN) - مدير النظام

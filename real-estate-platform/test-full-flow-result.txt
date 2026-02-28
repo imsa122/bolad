@@ -1,0 +1,77 @@
+=================================================================
+  FULL END-TO-END FLOW TEST
+  Register → OTP Verify → Login → Protected Routes
+=================================================================
+  Test email: flow-test-1772244418182@example.com
+
+── Flow 1: Register → OTP → Login ──
+  ✅ 1.1 Register → 201 — status: 201
+  ✅ 1.2 requiresEmailVerification = true
+  ✅ 1.3 devOtp present in dev mode — devOtp: 143600
+  ✅ 1.4 JWT token returned
+  ✅ 1.5 Set-Cookie: auth_token
+  ℹ️  devOtp: 143600
+  ℹ️  Frontend should redirect to: /ar/auth/verify-email?email=flow-test-1772244418182%40example.com
+  ✅ 1.6 Verify OTP → 200 — status: 200
+  ✅ 1.7 success = true
+  ℹ️  Frontend should redirect to: /ar/auth/login?verified=1
+  ✅ 1.8 Login after verify → 200 — status: 200
+  ✅ 1.9 Login returns user
+  ✅ 1.10 Login returns token
+  ✅ 1.11 Set-Cookie: auth_token on login
+  ✅ 1.12 /api/auth/me with token → 200 — status: 200
+  ✅ 1.13 Returns correct user email
+  ✅ 1.14 Returns correct role
+
+── Flow 2: Redirect URL Verification ──
+  ✅ 2.1 verify-email URL has email param
+  ✅ 2.2 login URL has verified=1 param
+  ✅ 2.3 email properly encoded — encoded: flow-test-1772244418182%40example.com
+  ℹ️  verify-email URL: /ar/auth/verify-email?email=flow-test-1772244418182%40example.com
+  ℹ️  login URL after verify: /ar/auth/login?verified=1
+
+── Flow 3: Already Verified User ──
+  ✅ 3.1 Already verified → 409 or 429 — status: 409 (409=verified, 429=rate-limited)
+  ℹ️  Error: This email is already verified.
+
+── Flow 4: Unverified User Login (soft enforcement) ──
+  ✅ 4.1 Register unverified user → 201 — status: 201
+  ✅ 4.2 Unverified user can login (soft enforcement) — status: 200
+  ℹ️  Note: Email verification is soft-enforced (user can still login)
+  ℹ️  Frontend shows verification reminder in profile/navbar
+
+── Flow 5: Wrong OTP Error Messages ──
+  ✅ 5.1 Wrong OTP → 400 — status: 400
+  ✅ 5.2 attemptsLeft in response
+  ℹ️  Arabic error: رمز التحقق غير صحيح. المحاولات المتبقية: 4
+  ✅ 5.3 English error message — status: 400
+  ℹ️  English error: Invalid verification code. Attempts remaining: 3
+
+── Flow 6: Page Accessibility ──
+  ✅ 6.x Register page (AR) — status: 200
+  ✅ 6.x Register page (EN) — status: 200
+  ✅ 6.x Login page (AR) — status: 200
+  ✅ 6.x Login page with verified=1 — status: 200
+  ✅ 6.x Verify email page (AR) — status: 200
+  ✅ 6.x Verify email page (EN) — status: 200
+
+=================================================================
+  RESULTS: 29 passed, 0 failed out of 29 tests
+=================================================================
+
+🎉 All flow tests passed!
+
+📋 Frontend Flow Summary:
+  Register page:
+    • Submits form → calls /api/auth/register
+    • If requiresEmailVerification=true → redirects to /[locale]/auth/verify-email?email=...
+    • Shows toast: "Account created! Please verify your email 📧"
+  Verify Email page:
+    • Shows 6-digit OTP input with auto-advance
+    • 10-minute countdown timer
+    • Resend button with 60s cooldown
+    • On success → redirects to /[locale]/auth/login?verified=1
+  Login page:
+    • If ?verified=1 → shows green "Email verified!" banner
+    • Shows toast: "✅ Email verified! You can now sign in."
+    • "Haven't verified your email yet?" link to verify-email page

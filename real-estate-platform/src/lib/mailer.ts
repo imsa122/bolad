@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 import { formatOtpForDisplay, OTP_EXPIRY_MINUTES } from './otp';
 
 // ============================================
@@ -11,7 +12,7 @@ export function isEmailServiceConfigured(): boolean {
 }
 
 // ============================================
-// RESEND HTTP API (preferred — free tier)
+// RESEND SDK (preferred — official package)
 // ============================================
 async function sendViaResend(options: {
   from: string;
@@ -20,25 +21,18 @@ async function sendViaResend(options: {
   html: string;
   text: string;
 }): Promise<void> {
-  const apiKey = process.env.RESEND_API_KEY!;
-  const res = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      from: options.from,
-      to: [options.to],
-      subject: options.subject,
-      html: options.html,
-      text: options.text,
-    }),
+  const resend = new Resend(process.env.RESEND_API_KEY!);
+
+  const { error } = await resend.emails.send({
+    from: options.from,
+    to: options.to,
+    subject: options.subject,
+    html: options.html,
+    text: options.text,
   });
 
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(`Resend API error ${res.status}: ${JSON.stringify(err)}`);
+  if (error) {
+    throw new Error(`Resend error: ${error.message}`);
   }
 }
 

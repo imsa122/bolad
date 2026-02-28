@@ -1,7 +1,5 @@
 {
   "buildCommand": "cd real-estate-platform && npm install --legacy-peer-deps && npx prisma generate && npm run build",
   "outputDirectory": "real-estate-platform/.next",
-  "installCommand": "cd real-estate-platform && npm install --legacy-peer-deps",
-  "framework": "nextjs",
-  "devCommand": "cd real-estate-platform && npm run dev"
+  "installCommand": "cd real-estate-platform && npm install --legacy-peer-deps"
 }

@@ -1,0 +1,36 @@
+🌱 Seeding Railway MySQL database...
+(node:14580) ExperimentalWarning: `--experimental-loader` may be removed in the future; instead use `register()`:
+--import 'data:text/javascript,import { register } from "node:module"; import { pathToFileURL } from "node:url"; register("ts-node/esm", pathToFileURL("./"));'
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:14580) [DEP0180] DeprecationWarning: fs.Stats constructor is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+node:internal/modules/esm/loader:420
+      throw new ERR_REQUIRE_CYCLE_MODULE(message);
+            ^
+
+Error [ERR_REQUIRE_CYCLE_MODULE]: Cannot require() ES Module c:\Users\pccra\OneDrive\سطح المكتب\bolad\real-estate-platform\prisma\seed.ts in a cycle. A cycle involving require(esm) is not allowed to maintain invariants mandated by the ECMAScript specification. Try making at least part of the dependency in the graph lazily loaded.
+    at ModuleLoader.importSyncForRequire (node:internal/modules/esm/loader:420:13)
+    at loadESMFromCJS (node:internal/modules/cjs/loader:1537:24)
+    at Module._compile (node:internal/modules/cjs/loader:1688:5)
+    at Object..js (node:internal/modules/cjs/loader:1839:10)
+    at Module.load (node:internal/modules/cjs/loader:1441:32)
+    at Function._load (node:internal/modules/cjs/loader:1263:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at cjsLoader (node:internal/modules/esm/translators:268:5)
+    at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7) {
+  code: 'ERR_REQUIRE_CYCLE_MODULE'
+}
+
+Node.js v22.19.0
+
+⚠️  ts-node seed failed, trying alternative approach...
+✅ Admin created: admin@realestate.sa
+✅ User created: user@realestate.sa
+✅ 5 properties created
+
+🎉 Database seeded successfully!
+
+📋 Login Credentials:
+   Admin: admin@realestate.sa / Admin@123456
+   User:  user@realestate.sa  / User@123456

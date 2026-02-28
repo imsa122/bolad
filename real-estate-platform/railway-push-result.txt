@@ -1,0 +1,25 @@
+🚀 Pushing schema to Railway MySQL...
+📡 URL: mysql://root:****@turntable.proxy.rlwy.net:31805/railway
+Environment variables loaded from .env
+Prisma schema loaded from prisma\schema.prisma
+Datasource "db": MySQL database "railway" at "turntable.proxy.rlwy.net:31805"
+
+The MySQL database "railway" at "turntable.proxy.rlwy.net:31805" was successfully reset.
+
+Your database is now in sync with your Prisma schema. Done in 5.42s
+
+Running generate... (Use --skip-generate to skip the generators)
+[2K[1A[2K[GRunning generate... - Prisma Client
+[2K[1A[2K[G✔ Generated Prisma Client (v5.22.0) to .\node_modules\@prisma\client in 62ms
+
+
+✅ Schema pushed! Tables created in Railway MySQL.
+
+📋 Next: Add these to Vercel Environment Variables:
+   DATABASE_URL = mysql://root:oOjJWkSfUilNqWyBdchIWcCxNWjFnSeD@turntable.proxy.rlwy.net:31805/railway
+   JWT_SECRET = saudi-real-estate-jwt-secret-2024-production-key
+   JWT_EXPIRES_IN = 7d
+   NEXT_PUBLIC_APP_URL = https://bolad-rk2cxhaxh-imsa122s-projects.vercel.app
+
+🔄 Then Redeploy on Vercel!
+EXIT_CODE:0 

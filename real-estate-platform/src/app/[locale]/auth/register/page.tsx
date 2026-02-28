@@ -34,10 +34,19 @@ export default function RegisterPage() {
   const onSubmit = async (data: RegisterInput) => {
     setIsLoading(true);
     try {
-      // registerUser returns data.data: { user, token, requiresEmailVerification, otpSent, devOtp? }
+      // registerUser returns data.data: { user, token, requiresEmailVerification, autoVerified, otpSent, devOtp? }
       const result = await registerUser(data);
 
-      if (result?.requiresEmailVerification) {
+      if (result?.autoVerified) {
+        // ── No email service configured — user is auto-verified ──
+        toast.success(
+          locale === 'ar'
+            ? 'تم إنشاء الحساب والتحقق منه بنجاح! يمكنك تسجيل الدخول الآن 🎉'
+            : 'Account created and verified! You can now log in 🎉',
+          { duration: 4000 }
+        );
+        router.push(`/${locale}/auth/login?verified=1`);
+      } else if (result?.requiresEmailVerification) {
         // ── Redirect to OTP verification page ──
         toast.success(
           locale === 'ar'
@@ -48,7 +57,7 @@ export default function RegisterPage() {
         const email = encodeURIComponent(data.email);
         router.push(`/${locale}/auth/verify-email?email=${email}`);
       } else {
-        // Fallback: no verification required (e.g. admin-created accounts)
+        // Fallback: no verification required
         toast.success(
           locale === 'ar' ? 'تم إنشاء الحساب بنجاح! مرحباً بك 🎉' : 'Account created successfully! Welcome 🎉'
         );

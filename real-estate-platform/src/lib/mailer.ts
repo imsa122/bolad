@@ -2,7 +2,48 @@ import nodemailer from 'nodemailer';
 import { formatOtpForDisplay, OTP_EXPIRY_MINUTES } from './otp';
 
 // ============================================
-// TRANSPORTER SINGLETON
+// EMAIL SERVICE DETECTION
+// ============================================
+export function isEmailServiceConfigured(): boolean {
+  const hasResend = !!process.env.RESEND_API_KEY;
+  const hasSmtp = !!(process.env.SMTP_USER && process.env.SMTP_PASS);
+  return hasResend || hasSmtp;
+}
+
+// ============================================
+// RESEND HTTP API (preferred — free tier)
+// ============================================
+async function sendViaResend(options: {
+  from: string;
+  to: string;
+  subject: string;
+  html: string;
+  text: string;
+}): Promise<void> {
+  const apiKey = process.env.RESEND_API_KEY!;
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      from: options.from,
+      to: [options.to],
+      subject: options.subject,
+      html: options.html,
+      text: options.text,
+    }),
+  });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(`Resend API error ${res.status}: ${JSON.stringify(err)}`);
+  }
+}
+
+// ============================================
+// NODEMAILER SMTP (fallback)
 // ============================================
 let transporter: nodemailer.Transporter | null = null;
 
@@ -12,7 +53,7 @@ function getTransporter(): nodemailer.Transporter {
   transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST || 'smtp.gmail.com',
     port: parseInt(process.env.SMTP_PORT || '587'),
-    secure: process.env.SMTP_PORT === '465', // true for 465, false for 587
+    secure: process.env.SMTP_PORT === '465',
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
@@ -250,7 +291,7 @@ function buildOtpEmailHtml(name: string, otp: string, locale: 'ar' | 'en'): stri
 }
 
 // ============================================
-// SEND OTP EMAIL
+// SEND OTP EMAIL — uses Resend if configured, falls back to SMTP
 // ============================================
 export async function sendOtpEmail({
   to,
@@ -264,30 +305,56 @@ export async function sendOtpEmail({
     : `Email Verification Code - ${formatOtpForDisplay(otp)}`;
 
   const html = buildOtpEmailHtml(name, otp, locale);
+  const text = isAr
+    ? `مرحباً ${name}،\n\nرمز التحقق الخاص بك هو: ${otp}\n\nينتهي خلال ${OTP_EXPIRY_MINUTES} دقائق.\n\nلا تشارك هذا الرمز مع أي شخص.`
+    : `Hello ${name},\n\nYour verification code is: ${otp}\n\nExpires in ${OTP_EXPIRY_MINUTES} minutes.\n\nNever share this code with anyone.`;
 
-  const mailOptions: nodemailer.SendMailOptions = {
-    from: process.env.SMTP_FROM || `"عقارات السعودية" <noreply@realestate.sa>`,
-    to,
-    subject,
-    html,
-    // Plain text fallback
-    text: isAr
-      ? `مرحباً ${name}،\n\nرمز التحقق الخاص بك هو: ${otp}\n\nينتهي خلال ${OTP_EXPIRY_MINUTES} دقائق.\n\nلا تشارك هذا الرمز مع أي شخص.`
-      : `Hello ${name},\n\nYour verification code is: ${otp}\n\nExpires in ${OTP_EXPIRY_MINUTES} minutes.\n\nNever share this code with anyone.`,
-    headers: {
-      'X-Priority': '1',
-      'X-Mailer': 'Saudi Real Estate Platform',
-    },
-  };
+  const from =
+    process.env.SMTP_FROM ||
+    process.env.RESEND_FROM ||
+    `"عقارات السعودية" <onboarding@resend.dev>`;
 
-  const transport = getTransporter();
-  await transport.sendMail(mailOptions);
+  // ── Priority 1: Resend API ──
+  if (process.env.RESEND_API_KEY) {
+    await sendViaResend({ from, to, subject, html, text });
+    return;
+  }
+
+  // ── Priority 2: SMTP (nodemailer) ──
+  if (process.env.SMTP_USER && process.env.SMTP_PASS) {
+    const transport = getTransporter();
+    await transport.sendMail({
+      from,
+      to,
+      subject,
+      html,
+      text,
+      headers: {
+        'X-Priority': '1',
+        'X-Mailer': 'Saudi Real Estate Platform',
+      },
+    });
+    return;
+  }
+
+  // ── No email service configured ──
+  throw new Error('NO_EMAIL_SERVICE: No email provider configured (RESEND_API_KEY or SMTP_USER/SMTP_PASS required)');
 }
 
 // ============================================
-// VERIFY SMTP CONNECTION (health check)
+// VERIFY EMAIL SERVICE (health check)
 // ============================================
 export async function verifySmtpConnection(): Promise<boolean> {
+  if (process.env.RESEND_API_KEY) {
+    try {
+      const res = await fetch('https://api.resend.com/domains', {
+        headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}` },
+      });
+      return res.ok;
+    } catch {
+      return false;
+    }
+  }
   try {
     const transport = getTransporter();
     await transport.verify();

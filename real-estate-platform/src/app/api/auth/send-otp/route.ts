@@ -147,7 +147,7 @@ export async function POST(req: NextRequest) {
     `;
   }
 
-  // ── 8. Send email (non-blocking on failure in dev) ──
+  // ── 8. Send email ──
   try {
     await sendOtpEmail({
       to: email,
@@ -156,23 +156,43 @@ export async function POST(req: NextRequest) {
       locale,
     });
   } catch (emailError) {
-    console.error('[send-otp] Email send failed:', emailError);
+    const errMsg = emailError instanceof Error ? emailError.message : String(emailError);
+    console.error('[send-otp] Email send failed:', errMsg);
 
-    // In development, log OTP to console for testing
-    if (process.env.NODE_ENV === 'development') {
-      console.log(`\n🔑 [DEV] OTP for ${email}: ${otp}\n`);
+    // ── No email service configured → auto-verify the user ──
+    if (errMsg.startsWith('NO_EMAIL_SERVICE')) {
+      console.log(`[send-otp] No email service configured — auto-verifying user ${email}`);
+      await prisma.$executeRaw`
+        UPDATE users SET isEmailVerified = 1 WHERE email = ${email}
+      `;
       return NextResponse.json(
         {
           success: true,
-          message: `[DEV MODE] OTP logged to console. Email: ${email}, OTP: ${otp}`,
-          expiresIn: 600,
-          devOtp: otp, // Only in development!
+          autoVerified: true,
+          message:
+            locale === 'ar'
+              ? 'تم التحقق من حسابك تلقائياً. يمكنك تسجيل الدخول الآن.'
+              : 'Your account has been automatically verified. You can now log in.',
         },
         { status: 200 }
       );
     }
 
-    // In production, return error
+    // ── Development: log OTP to console ──
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`\n🔑 [DEV] OTP for ${email}: ${otp}\n`);
+      return NextResponse.json(
+        {
+          success: true,
+          message: `[DEV MODE] OTP: ${otp}`,
+          expiresIn: 600,
+          devOtp: otp,
+        },
+        { status: 200 }
+      );
+    }
+
+    // ── Production email failure ──
     return NextResponse.json(
       {
         success: false,

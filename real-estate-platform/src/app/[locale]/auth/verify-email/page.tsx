@@ -118,6 +118,17 @@ function VerifyEmailContent({ locale }: { locale: string }) {
       const data = await res.json();
 
       if (data.success) {
+        // ── Auto-verified (no email service configured) ──
+        if (data.autoVerified) {
+          toast.success(
+            isRTL
+              ? 'تم التحقق من حسابك تلقائياً! يمكنك تسجيل الدخول الآن 🎉'
+              : 'Account auto-verified! You can now log in 🎉',
+            { duration: 4000 }
+          );
+          setTimeout(() => router.push(`/${locale}/auth/login?verified=1`), 1500);
+          return;
+        }
         setExpiresIn(600);
         setAttemptsLeft(null);
         setCooldown(60);

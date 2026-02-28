@@ -66,6 +66,7 @@ export async function POST(req: NextRequest) {
 
     // ── Auto-send OTP for email verification ──
     let otpSent = false;
+    let autoVerified = false;
     let devOtp: string | undefined;
     let generatedOtp: string | undefined;
 
@@ -89,12 +90,18 @@ export async function POST(req: NextRequest) {
         console.log(`\n🔑 [DEV] Registration OTP for ${email}: ${generatedOtp}\n`);
       }
     } catch (otpError) {
-      // OTP send failure is non-fatal — user can request resend
-      console.error('[REGISTER] OTP send failed:', otpError);
-      // In dev mode, always expose the OTP even if email failed
-      if (process.env.NODE_ENV === 'development' && generatedOtp) {
+      const errMsg = otpError instanceof Error ? otpError.message : String(otpError);
+      console.error('[REGISTER] OTP send failed:', errMsg);
+
+      // ── No email service → auto-verify the user immediately ──
+      if (errMsg.startsWith('NO_EMAIL_SERVICE')) {
+        console.log(`[REGISTER] No email service — auto-verifying ${email}`);
+        await prisma.$executeRaw`UPDATE users SET isEmailVerified = 1 WHERE email = ${email}`;
+        autoVerified = true;
+      } else if (process.env.NODE_ENV === 'development' && generatedOtp) {
+        // Dev mode: expose OTP in response even if email failed
         devOtp = generatedOtp;
-        console.log(`\n🔑 [DEV] Registration OTP for ${email}: ${generatedOtp} (email send failed — using dev fallback)\n`);
+        console.log(`\n🔑 [DEV] Registration OTP for ${email}: ${generatedOtp} (email failed)\n`);
       }
     }
 
@@ -108,11 +115,12 @@ export async function POST(req: NextRequest) {
     const token = signToken(tokenPayload);
     const refreshToken = signRefreshToken(tokenPayload);
 
-    // Build response — include OTP verification redirect info
+    // Build response
     const responseData = {
       user,
       token,
-      requiresEmailVerification: true,
+      requiresEmailVerification: !autoVerified,
+      autoVerified,
       otpSent,
       ...(process.env.NODE_ENV === 'development' && devOtp ? { devOtp } : {}),
     };

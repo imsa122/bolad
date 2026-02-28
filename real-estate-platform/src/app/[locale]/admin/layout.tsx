@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter, useLocale } from 'next/navigation';
-import { useLocale as useIntlLocale } from 'next-intl';
+import { useRouter } from 'next/navigation';
+import { useLocale } from 'next-intl';
 import { Menu } from 'lucide-react';
 import AdminSidebar from '@/components/admin/AdminSidebar';
 import { useAuth } from '@/hooks/useAuth';
@@ -10,7 +10,7 @@ import { useAuth } from '@/hooks/useAuth';
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const { user, isLoading, isAuthenticated } = useAuth();
   const router = useRouter();
-  const locale = useIntlLocale();
+  const locale = useLocale();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const isRTL = locale === 'ar';
 

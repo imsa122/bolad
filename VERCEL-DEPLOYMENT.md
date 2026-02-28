@@ -6,21 +6,32 @@ Your Vercel deployment showed `404: NOT_FOUND` because of **3 issues**:
 
 | # | Problem | Fix |
 |---|---------|-----|
-| 1 | Vercel deployed from repo root (`bolad/`) but app is in `real-estate-platform/` | ✅ `vercel.json` added at repo root |
-| 2 | `experimental.serverComponentsExternalPackages` deprecated in Next.js 14.1 | ✅ Fixed in `next.config.mjs` |
-| 3 | `DATABASE_URL` points to `localhost` — Vercel can't reach your local MySQL | ⚠️ Requires cloud MySQL setup |
+| 1 | Vercel deployed from repo root (`bolad/`) but app is in `real-estate-platform/` | ✅ Fix in Step 1 below (Vercel Dashboard) |
+| 2 | `experimental.serverComponentsExternalPackages` deprecated in Next.js 14.1 | ✅ Already fixed in `next.config.mjs` |
+| 3 | `DATABASE_URL` points to `localhost` — Vercel can't reach your local MySQL | ⚠️ Fix in Step 3 below |
 
 ---
 
 ## ✅ Step-by-Step Fix
 
-### Step 1: Commit & Push the Fixes
+### ⭐ Step 1: Set Root Directory in Vercel Dashboard (MOST IMPORTANT)
 
-```bash
-git add vercel.json real-estate-platform/next.config.mjs
-git commit -m "fix: vercel deployment config + next.config serverExternalPackages"
-git push origin main
-```
+This is the **primary fix** for the 404. Vercel must know the Next.js app is inside `real-estate-platform/`.
+
+1. Go to: **https://vercel.com/dashboard**
+2. Click on your project **"bolad"**
+3. Click **"Settings"** tab (top navigation)
+4. Click **"General"** in the left sidebar
+5. Scroll down to find **"Root Directory"**
+6. Click **"Edit"** next to Root Directory
+7. Type: `real-estate-platform`
+8. Click **"Save"**
+9. Go to **"Deployments"** tab
+10. Click the **"..."** menu on the latest deployment
+11. Click **"Redeploy"** → confirm
+
+> ✅ After this, Vercel will treat `real-estate-platform/` as the project root and auto-detect Next.js correctly.
+> ✅ You can also delete the `vercel.json` at the repo root after setting this — it's no longer needed.
 
 ---
 

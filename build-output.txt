@@ -1,0 +1,103 @@
+
+> real-estate-platform@1.0.0 build
+> next build
+
+  ▲ Next.js 14.2.5
+  - Environments: .env
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/50) ...
+   Generating static pages (12/50) 
+   Generating static pages (24/50) 
+   Generating static pages (37/50) 
+ ✓ Generating static pages (50/50)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                               Size     First Load JS
+┌ ○ /_not-found                           871 B          88.1 kB
+├ ● /[locale]                             2.88 kB         125 kB
+├   ├ /ar
+├   └ /en
+├ ● /[locale]/admin                       5.17 kB         144 kB
+├   ├ /ar/admin
+├   └ /en/admin
+├ ● /[locale]/admin/bookings              3.6 kB          140 kB
+├   ├ /ar/admin/bookings
+├   └ /en/admin/bookings
+├ ● /[locale]/admin/contacts              4.18 kB         141 kB
+├   ├ /ar/admin/contacts
+├   └ /en/admin/contacts
+├ ● /[locale]/admin/properties            3.79 kB         153 kB
+├   ├ /ar/admin/properties
+├   └ /en/admin/properties
+├ ƒ /[locale]/admin/properties/[id]/edit  1.54 kB         166 kB
+├ ● /[locale]/admin/properties/new        729 B           172 kB
+├   ├ /ar/admin/properties/new
+├   └ /en/admin/properties/new
+├ ● /[locale]/admin/settings              5.11 kB         120 kB
+├   ├ /ar/admin/settings
+├   └ /en/admin/settings
+├ ● /[locale]/admin/users                 4.26 kB         141 kB
+├   ├ /ar/admin/users
+├   └ /en/admin/users
+├ ● /[locale]/auth/login                  5.63 kB         171 kB
+├   ├ /ar/auth/login
+├   └ /en/auth/login
+├ ● /[locale]/auth/register               5.42 kB         171 kB
+├   ├ /ar/auth/register
+├   └ /en/auth/register
+├ ● /[locale]/auth/verify-email           4.85 kB         104 kB
+├   ├ /ar/auth/verify-email
+├   └ /en/auth/verify-email
+├ ƒ /[locale]/booking/[id]                173 B          94.2 kB
+├ ● /[locale]/contact                     4.96 kB         164 kB
+├   ├ /ar/contact
+├   └ /en/contact
+├ ● /[locale]/profile                     6.57 kB         150 kB
+├   ├ /ar/profile
+├   └ /en/profile
+├ ● /[locale]/properties                  5.59 kB         150 kB
+├   ├ /ar/properties
+├   └ /en/properties
+├ ƒ /[locale]/properties/[id]             10.5 kB         181 kB
+├ ƒ /[locale]/properties/[id]/edit        5.04 kB         125 kB
+├ ● /[locale]/properties/new              1.55 kB         173 kB
+├   ├ /ar/properties/new
+├   └ /en/properties/new
+├ ƒ /api/admin/contacts                   0 B                0 B
+├ ƒ /api/admin/contacts/[id]              0 B                0 B
+├ ƒ /api/admin/stats                      0 B                0 B
+├ ƒ /api/admin/users                      0 B                0 B
+├ ƒ /api/admin/users/[id]                 0 B                0 B
+├ ƒ /api/auth/login                       0 B                0 B
+├ ƒ /api/auth/logout                      0 B                0 B
+├ ƒ /api/auth/me                          0 B                0 B
+├ ƒ /api/auth/register                    0 B                0 B
+├ ƒ /api/auth/send-otp                    0 B                0 B
+├ ƒ /api/auth/verify-otp                  0 B                0 B
+├ ƒ /api/bookings                         0 B                0 B
+├ ƒ /api/bookings/[id]                    0 B                0 B
+├ ƒ /api/contact                          0 B                0 B
+├ ƒ /api/properties                       0 B                0 B
+├ ƒ /api/properties/[id]                  0 B                0 B
+├ ƒ /api/properties/my                    0 B                0 B
+├ ○ /api/test-db                          0 B                0 B
+├ ƒ /api/upload                           0 B                0 B
+├ ○ /robots.txt                           0 B                0 B
+└ ○ /sitemap.xml                          0 B                0 B
++ First Load JS shared by all             87.2 kB
+  ├ chunks/23-dacc6d27381879cb.js         31.5 kB
+  ├ chunks/fd9d1056-0c0605dfe71dfa1a.js   53.6 kB
+  └ other shared chunks (total)           2.04 kB
+
+
+ƒ Middleware                              45.9 kB
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses getStaticProps)
+ƒ  (Dynamic)  server-rendered on demand
+
